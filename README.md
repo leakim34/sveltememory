@@ -11,6 +11,7 @@ Basic Memory game built with Svelte / Skeleton
 
 ## Installation
 `pnpm install`
+
 `pnpm dev`
 
 
