@@ -21,9 +21,13 @@
 	// add matched property to each card
 
 	// create a set of cards
-	import { cards,flippedCards, type Card } from '$lib/stores';
+
+
+	import { cards,flippedCards, matchedCards, type Card } from '$lib/stores';
 	const emojis = ['🥕', '🍎', '🍌', '🍉', '🍇', '🍓', '🍒', '🍑'];
-	let attempts = 0;
+
+	let moves = 0;
+	$: score = $matchedCards.length / 2 || 0;
 
 	cards.fillFromStrings(emojis);
 	// give me an array of 8 emojis
@@ -47,22 +51,35 @@
 					cards.flipCard(card);
 				}, 500);
 			}
-			attempts++;
+			moves++;
 		}
 	};
 
+	const reset = () => {
+		cards.fillFromStrings(emojis);
+		cards.shuffle();
+		moves = 0;
+	
+	}
+
 </script>
 
-<div class="container h-full mx-auto flex flex-col gap-10 p-5 my-10 border">
-	<section class="border justify-self-start flex justify-around">
+<div class="container h-full mx-auto flex flex-col gap-10 p-5 my-10">
+	<section class="justify-self-start flex justify-around">
 		<button class="btn variant-filled-primary">Start</button>
-		<button class="btn variant-filled-primary">Reset</button>
-		<button class="btn variant-filled-error">Cancel</button>
+		<button class="btn variant-filled-primary" on:click={reset}>Reset</button>
 	</section>
 
-	<h1 class="font-bold text-3xl text-center">{attempts}</h1>
+	<section class="flex justify-around items-center">
+		<p class="font-bold uppercase flex items-center">Score
+			<span class="text-3xl ml-2 text-blue-300">{score}</span> 
+		</p>
+		<p class="font-bold uppercase flex items-center">Moves 
+			<span class="text-3xl ml-2 text-blue-300">{moves}</span> 
+		</p>
+	</section>
 
-	<section class="border flex-grow flex flex-col justify-center items-center">
+	<section class="flex-grow flex flex-col mt-10 items-center">
 		<!-- Need a structure to iterate over cards and display each one in grid template  -->
 		<div class="grid grid-cols-4 gap-4">
 			{#each $cards as card}

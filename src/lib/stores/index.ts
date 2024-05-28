@@ -28,3 +28,4 @@ export const cards = createCardsStore();
 
 
 export const flippedCards = derived(cards, ($cards) => $cards.filter((card) => card.flipped && !card.matched));
+export const matchedCards = derived(cards, ($cards) => $cards.filter((card) => card.matched));
